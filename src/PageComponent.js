@@ -1,81 +1,134 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './page5.css';
- class PageComponent extends Component {
-      render() {
-        return(
+import axios from 'axios';
+import {
+    BrowserRouter as Router,
+    Link
+  } from 'react-router-dom';
+class PageComponent extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: this.props.post.location.state.p,
+            data: [{
+                title: "...",
+                titleDescription: "...",
+                authorName: "...",
+                postDescription: "...",
+                createdAt: "..."
+            }]
+        }
+    }
+
+    componentWillMount() {
+        this.fetch();
+    }
+
+    fetch() {
+        var url = "http://localhost:3000/users/posts/" + this.state.id.toString();
+
+        // alert(url)
+
+        axios.get(url)
+            .then((response) => {
+                //console.log(response)
+                this.setState({
+                    //id: response.data.data.id,
+                   data: response.data.data
+                    //title: response.data.data.title
+                });
+                console.log(this.state.data[0])
+            }).catch((e) => {
+                alert(e)
+            });
+    }
+
+
+
+
+    render() {
+        var publishdate = this.state.data[0].createdAt;
+        publishdate = publishdate.slice(0, 10);
+        // console.log(this.props.post.location.state.p)
+        // console.log(this.state)
+        //var allposts = this.state.data.map(post => <Post key={post.id} post={post} />);
+        return (
             <div className="pcontainer">
-            <div className="pfirst">        
-            <div className="pleftside">
-            <div className="picon">
-                <i className="fab fa-medium"></i>
-            </div>
-            &nbsp;
-            <div className="pname">
-                <h1>Modus</h1>
-            </div>
-            </div>
-            <div className="prightside">
-            <div className="psignin">
-                <a href="#">Sign in</a> 
-            </div>
-            <div className="pstarted">
-                <a href="#" className="prect">Get started</a>
-            </div>
-            </div>    
-            </div>
-            <div className="pline2">
-                <h1>OneZero</h1>
-            </div>
-            <div className="psecond">
-            <div className="pcontent">
-                <div className="pb1">
-                    <h1>Case Study: 'How We Redesigned Our <br/>
-                        App's UI in Only Three Months' 
-                    </h1>
-                </div>                     
-                <div className="pb2">
-                    Collaboration and flexbility are the names of the game
-                </div> <br/>
-                    <div className="pprofile">
-                        <div className="img">
-                            <img src={require('./images/david.jpeg')} className="pimagestyle" alt="avatar" />
+                <div className="pfirst">
+                    <div className="pleftside">
+                        <Link to='/'>
+                        <div className="picon" style={{fontSize: '270%'}}>
+                                {/* <i className="fab fa-medium"></i> */}
+                            <img src={require('./images/images.png')} className="pimagestyle" alt="avatar" />
                         </div>
-                        <div className="ppname">
-                            <p>Dave Feldman</p>
-                            <p>May 20 . 9 min read</p>
+                        </Link>
+                        
+                        <div className="pname">
+                            <h1>{this.state.data[0].tag}</h1>
                         </div>
-                        <div className="pfollow">
-                            <a href="#" className="prect1">Follow</a>
-                        </div> 
-                    </div> 
-            </div> 
-            </div> <br/><br/>
-            <div className="pthird">
-                    <div className="pdata">
-                    <p><span className="pthird-first-letter">W</span>e were well prepared for hatred when we launched the redesign,but we 
-                        didn't get it.The reception was overwhelmingly positive. A post-launch,in-
-                        product survey asked customers how much they liked the new look, and on
-                        average they gave it 7.6 out of 10.( if that seems low ,recall that "nobody
-                        notices was an accountable outcome")
-                    </p> <br/>
-                    <p>
-                        Thats not to say everyone loved it. Here's some customers feedback, both
-                        good and bad:
-                    </p>
-                    <p>&#8226; Products like Heap must show far more data at a far greater density than 
-                        the average consumer app
-                    </p>
-                    <p>&#8226; Many products, especially in the consumer space</p>
-                    <p>&#8226; We knew we wanted something modern, but we didn’t just want to look like
-                        everything else; we were hoping to be at least a little distinct.
-                    </p>
-                    <p>&#8226; Heap is an app, not a website; a desktop thing, not a mobile thing.</p>
                     </div>
-                </div>                    
-            </div> 
+                </div>
+                <div className="pline2">
+                    <h1>{this.state.data[0].title}</h1>
+                    {/* {allposts} */}
+                </div>
+                <div className="psecond">
+                    <div className="pcontent">
+                        <div className="pb1">
+                            <h1>Case Study: {this.state.data[0].title}</h1>
+                        </div>
+                        <div className="pb2">
+                            {this.state.data[0].titleDescription}
+                        </div> <br />
+                        <div className="pprofile">
+                            <div className="img">
+                                <img src={require('./images/david.jpeg')} className="pimagestyle" alt="avatar" />
+                            </div>
+                            <div className="ppname" id="post1">
+                            <p>{this.state.data[0].authorName}</p>
+                            <p>{publishdate} . {this.state.data[0].readTime}</p>
+                                {/* <p>Dave Feldman</p> */}
+                                {/* {allposts} */}
+                                {/* <p>May 20 . 9 min read</p> */}
+                                {/* {allposts} */}
+                            </div>
+                            {/* <div className="pfollow">
+                                <a href="#" className="prect1">Follow</a>
+                            </div> */}
+                        </div>
+                    </div>
+                </div> <br />
+                <div className="pthird">
+                    <div className="pdata">
+                        <p>{this.state.data[0].postDescription}</p>
+                    </div>
+                </div>
+            </div>
         );
-      }
-   }
+    }
+}
+ 
+class Post extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        var publishdate = this.props.post.date;
+        publishdate = publishdate.slice(0, 10);
+        return (
+            <div class="pcontainer">
+                <div className="pprofile">
+                    <div className="ppname" id="post1">
+                        <p>{this.props.post.authorName}</p>
+                        <p>{publishdate}</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
 
 
 export default PageComponent;

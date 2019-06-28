@@ -52,6 +52,53 @@ body{
     font-size: 19px;
     text-align: center; */
 }
+/* textarea[type="text1"]::placeholder{
+    text-align: left;
+    font-size: 28px;
+    font-style: inherit;
+}
+.lmail{
+    border-radius:2px;
+    height: 6%;
+}
+.nav-link  {
+    text-decoration: none;
+    color: black;
+}
+textarea[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  input[type=continue] {
+    width: 50%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-content: center;
+  }
+  input[type=continue]:hover {
+    background-color: #45a049;
+  }
+   */
+  
 @media not screen and (max-width: 500px) {
     .lcontainer {
         margin-left: 30%;
@@ -59,6 +106,10 @@ body{
     }
     .icons{
         margin-left: 30%;
+    }
+    .nav-link  {
+        text-decoration: none;
+        color: black;
     }
 }
 /* @media screen and (max-width: 640px) {

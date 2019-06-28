@@ -12,19 +12,63 @@ import {
   import PageComponent from './PageComponent';
 
  class HomeComponent extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      //tag: search.params.tag,
+      data: []
+      };
+    }
+    
+  componentDidMount() {
+    this.fetch();
+  }
+  
+  fetch(tag) {
+   
+    console.log("tag=",tag)
+    //var url="http://localhost:3000/users/posts";
+    console.log("locations params", this.props.location.search)
+    if(tag){
+     // var url = `http://localhost:3000/users/posts?tag=${tag}`;
+     var url = `http://localhost:3000/users/posts/tag/${tag}`;
+    } else {
+      console.log("fetching all")
+    var url = "http://localhost:3000/users/posts";
+     }
+
+    // alert(url)
+
+    
+    axios.get(url)
+          .then((response) => {
+            // console.log(response)
+            this.setState({
+              data: response.data.data           
+            });  
+          }).catch((e) => {
+            alert(e)
+          });
+        }
+
+
+
       render() {
+         console.log("state",this.state)
+         console.log("props",this.props)
+        var allposts = this.state.data.map(post => <Post key={post.id} post={post}/>);
         return(
-        <div className="bg-fluid">
         <div className="container">
         <div className="container1">
         <div className="main-container">
-            <div className="logo"> 
-                <h1>Medium</h1>
+            <div className="img">
+              <img src={require('./images/images.png')} style={{color: 'black'}} alt="avatar" />
+            </div>
+            <div className="logo" style={{fontSize: '130%', fontStretch: 'ultra-condensed', fontFamily: 'italic', width: '60%'}}>
+                <h1>Meetup</h1>
             </div> &nbsp; &nbsp;
-
-            <div className="searchbox">
-                <i className="fas fa-search"></i>
-            </div> &nbsp; &nbsp;
+            
             <div className="mem">
                 <a href="#">Become a Member</a> 
             </div> &nbsp; &nbsp;
@@ -32,56 +76,45 @@ import {
             <div className="login-form">
                 <a href="#">Sign in</a> 
             </div> &nbsp; &nbsp;
+            </Link>&nbsp;   
+            <Link className="nav-link" to='/post'>         
+            <div className="login-form1">
+                <a href="#" className="rect">Add Post</a>
+            </div>
             </Link>
             
-            <div className="login-form">
-                <a href="#" className="rect">Get started</a>
-            </div>
             
         </div>  
         <div className="tags">
-            <a href="#">HOME</a>
+            <a href="#" onClick={()=>this.fetch()}>HOME</a>
             &nbsp; 
-            <a href="#">ONEZERO</a>
-            &nbsp;  
-            <a href="#">ELEMENTAL</a> 
-            &nbsp; 
-            <a href="#">HEATED</a>
+            <a href="#" onClick={()=>this.fetch("ONEZERO")}>ONEZERO</a>
+            &nbsp;   
+            <a href="#" onClick={()=>this.fetch("HEATED")}>HEATED</a>
             &nbsp;
-            <a href="#" className="t1">TECH</a> 
+            <a href="#" onClick={()=>this.fetch("TECH")}>TECH</a> 
             &nbsp; 
-            <a href="#" className="t1">STARTUPS</a>
+            <a href="#" className="t1" onClick={()=>this.fetch("STARTUPS")}>STARTUPS</a>
             &nbsp; 
-            <a href="#" className="t1">SELF</a> 
+            <a href="#" className="t1" onClick={()=>this.fetch("SELF")}>SELF</a> 
             &nbsp; 
-            <a href="#" className="t1">POLITICS</a> 
+            <a href="#" className="t1" onClick={()=>this.fetch("POLITICS")}>POLITICS</a> 
             &nbsp; 
-            <a href="#" className="t1">HEALTH</a>
+            <a href="#" className="t1" onClick={()=>this.fetch("HEALTH")}>HEALTH</a>
             &nbsp; 
-            <a href="#" className="t1">DESIGN</a> 
+            <a href="#" className="t1" onClick={()=>this.fetch("DESIGN")}>DESIGN</a> 
             &nbsp; 
-            <a href="#" className="t1">HUMAN PARTS</a>
+            <a href="#" className="t1" onClick={()=>this.fetch("HUMAN PARTS")}>HUMAN PARTS</a>
             &nbsp; 
-            <a href="#" className="t1">MORE</a>  
+            <a href="#" className="t1" onClick={()=>this.fetch()}>MORE</a>  
          
         </div> 
         </div>
-        <div className="container2">
-        <div class="para">
-            <Post url="https://a0800e21-d9f5-484f-9593-d1a578f990bd.mock.pstmn.io/data1 " />
-          </div> <br/>
-          <div class="para">
-            <Post url="https://a0800e21-d9f5-484f-9593-d1a578f990bd.mock.pstmn.io/data2" />
-          </div> <br/>
-          <div class="para" id="Post">
-            <Post url="https://a0800e21-d9f5-484f-9593-d1a578f990bd.mock.pstmn.io/data2" />
-          </div> <br/>
-          <div class="para" id="Post">
-            <Post url="https://a0800e21-d9f5-484f-9593-d1a578f990bd.mock.pstmn.io/data1 " />
-          </div> 
+        <div className="container2" id="post1">
+          {allposts}
         </div>
+        <br />
      </div>
- </div>
         );
       }
    }
@@ -92,78 +125,49 @@ import {
    class Post extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-           
-                title: "",
-                des: "",
-                auth:  "",
-                readtimes: ""
-              
-        }
-      }
-
-      componentWillMount() {
-        this.fetch();
-      }
-
-      fetch() {
-        // var options={}
-        var { url } = this.props;
         
-        // alert(url)
-        axios.get(url)
-          .then((response) => {
-        //   if(baseUrl == "https://api.unsplash.com/search/photos/")
-        {
-            this.setState({
-              title: response.data.data.title,
-              des:  response.data.data.des,
-              auth:  response.data.data.auth,         
-              readtimes: response.data.data.readtimes             
-            });
-          }    
-          
-          })
-        //   .catch((e) => {
-        //     alert(e)
-        //   });
-        .catch(() => {
-            alert("exception in proceess")
-          });
       }
 
+     
+     
 
       render() {
+        console.log(this.props.post.id)
+        var Date = this.props.post.createdAt
+        Date = Date.slice(0,10)
         return(
-    <div className="container2">
+    <div className="container2" id="post1">
+     
             <div className="para">
-                <Link className="nav-link" to='/posts/:postID'>
+            {/* <Link className="nav-link" to={{ pathname: '/singlepage', state: { p:this.props.post.id} }} > */}
+            <Link className="nav-link" to={{ pathname: '/singlepage', state: { p:this.props.post.id} }} >
+                {/* <Link className="nav-link" to='/singlepage' params={{value: this.props.post.id}}> */}
                 <div className="mainb">
-                    <h1>{this.state.title}</h1>
+                    <h1>{this.props.post.titleDescription}</h1>
                 </div>
                 <div className="b1">
-                    <p>{this.state.des}</p>
+                    <p>{this.props.post.postDescription}</p>
                 </div>
                 </Link>
-                <Link className="nav-link" to='/comment'>
-                <div className="auth">
-                    <p>{this.state.auth}</p>
+                <Link className="nav-link" to={{ pathname: '/comment', state: {p:this.props.post.id}}}>
+                
+                <div className="auth" style={{width: '10%'}}>
+                    <p>{this.props.post.authorName}</p>
                 </div>
                 </Link>
                 <div className="new">
                 <div className="pub">
-                    <p> {this.state.readtimes} &#9733;</p>
+                    <p>{Date}  .  {this.props.post.readTime} &#9733;</p>
                 </div>
-                <div className="resp">
-                    {/* <i className="fa fa-bookmark-o"></i>  */}
-                    <i class="material-icons">&#xe866;</i>
+                <div className="resp">                    
+                  <i class="far fa-bookmark"></i>
                 </div>
                 </div>
             </div> <br/>
    </div>
         );
     }
-
+ 
    }
 
 export default HomeComponent;

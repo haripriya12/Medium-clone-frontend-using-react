@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './Login.css';
+import './Post.css';
 import axios from 'axios';
 import {
     BrowserRouter as Router,
@@ -7,7 +7,7 @@ import {
     Link,
     Switch
   } from 'react-router-dom';
- class LoginComponent extends Component {
+ class PostComponent extends Component {
 
     constructor() {
         super();
@@ -35,25 +35,30 @@ import {
 
       render() {
         return(
-            <div className="lcontainer">
+            <div className="postcontainer">
              <form action={`http://localhost:3000/users/post`} method="post">   
-            <div className="line1">
-            <div className="name">
-               <i className="fab fa-medium"></i>
+            <div className="postline1">
+            <div className="postname">
+               {/* <i className="fab fa-medium"></i> */}
+               <Link to='/'>
+                    <div className="picon" style={{fontSize: '70%'}}>
+                        <img src={require('./images/images.png')} className="pimagestyle" alt="avatar" />
+                    </div>
+                </Link>
                &nbsp;
                <a href="#">Drafts</a>
                &nbsp;
                <a href="#">Saved</a>
             </div>
-            <div className="icons">
+            <div className="posticons">
                 {/* <a href="#">Ready to Publish</a> */}
-                <input style={{border: "none", backgroundColor: "none", color: "green"}} type="submit" value="Ready to publish" />
-                &nbsp; &nbsp;
+                {/* <input style={{border: "none", backgroundColor: "none", color: "green"}} type="submit" value="Ready to publish" />
+                &nbsp; &nbsp; */}
                 <a href="#">&hellip;</a>
                 &nbsp; &nbsp;
                 <a href="#" className="fa fa-bell"></a>
                 &nbsp; &nbsp;
-                <div>
+                {/* <div>
                 <button onClick={this.showMenu} className="p-circle">p</button>
                 {
                     this.state.showMenu
@@ -67,20 +72,17 @@ import {
                         null
                     )
                 }
-                </div>
+                </div> */}
 
             </div>
         </div>
-        <div className="lcontainer2">
-            <div className="line2a">
-                <h3>Test Blog Title</h3>
-            </div>
-            
-            <div className="line2b">
+        <div className="postcontainer2">
+            <div className="postdes">
                 <p>
-                    {/* <textarea className="textbox1" name="postDescription" rows="6" cols="20" placeholder="&#10753;  Tell your story...">
-                    </textarea> */}
-                    <textarea type="text" name="postDescription" rows="6" placeholder="&#10753;  Tell your story..." />
+                    <textarea type="text" name="postDescription" rows="13" placeholder="&#10753;  Tell your story..." />
+                </p>
+                <p>
+                    <input type="text" name="title" placeholder="add a title" />
                 </p>
                 <p>
                     <input type="text" name="titleDescription" placeholder="enter title description" />
@@ -94,36 +96,17 @@ import {
                 <p>
                     <input type="text" name="tag" placeholder="select a tag" />
                 </p>
-                
-            </div>
-            {/* </form> */}
-        </div>
-        </form>
-        <div className="lcontainer3">
-            <h1>Sign in with email</h1>
-            <div className="data1">
-                <h4>Enter the email address with your sccount
-                and we'll send a magic link to your inbox.
-                </h4>
-            </div>
-            <div className="mail">
-                <p>Your email</p>
                 <p>
-                <input type="text" placeholder="enter your email" />
-                </p>
-                <p>
-                    <input type="continue" value="CONTINUE" />
+                    <input type="submit" value="Publish Now" />
                 </p> 
             </div>
-            <div className="fylo">
-                <p className="style">&#8592; All sign in option 
-                </p>
-            </div>
         </div>
+        </form>
+
         </div>
         );
       }
    }
 
 
-export default LoginComponent;
+export default PostComponent;
